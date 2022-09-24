@@ -28,19 +28,19 @@
 | category_id        | integer      | null: false |
 | condition_id       | integer      | null: false |
 | postage_type_id    | integer      | null: false |
-| prefectures_id     | integer      | null: false |
+| prefecture_id      | integer      | null: false |
 | preparation_day_id | integer      | null: false |
 | price              | integer      | null: false |
 | user               | references   | null: false, foreign_key: true |
 
 ### Association
 
-- belongs_to :users
-- has_one :records
+- belongs_to :user
+- has_one :record
 - belongs_to_active_hash :category
 - belongs_to_active_hash :condition
 - belongs_to_active_hash :postage_type
-- belongs_to_active_hash :prefectures
+- belongs_to_active_hash :prefecture
 - belongs_to_active_hash :preparation_day
 
 ## records テーブル
@@ -48,11 +48,13 @@
 | Column      | Type       | Options                        |
 | ----------- | ---------- | ------------------------------ |
 | name        | string     | null: false                    |
+| user        | references | null: false, foreign_key: true |
+| item        | references | null: false, foreign_key: true |
 
 ### Association
 
-- belongs_to :users
-- belongs_to :items
+- belongs_to :user
+- belongs_to :item
 - has_one :address
 
 
@@ -61,13 +63,14 @@
 | Column          | Type       | Options                        |
 | --------------- | ---------- | ------------------------------ |
 | post_code       | string     | null: false                    |
-| prefectures     | string     | null: false                    |
+| prefecture_id   | string     | null: false                    |
 | municipalities  | string     | null: false                    |
 | address         | string     | null: false                    |
 | building_name   | string     |                                |
 | phone_number    | string     | null: false                    |
-| records         | references | null: false, foreign_key: true |
+| record          | references | null: false, foreign_key: true |
 
 ### Association
 
-- belongs_to :records
+- belongs_to :record
+- belongs_to_active_hash :prefecture
