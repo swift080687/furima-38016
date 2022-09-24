@@ -47,7 +47,6 @@
 
 | Column      | Type       | Options                        |
 | ----------- | ---------- | ------------------------------ |
-| name        | string     | null: false                    |
 | user        | references | null: false, foreign_key: true |
 | item        | references | null: false, foreign_key: true |
 
@@ -63,7 +62,7 @@
 | Column          | Type       | Options                        |
 | --------------- | ---------- | ------------------------------ |
 | post_code       | string     | null: false                    |
-| prefecture_id   | string     | null: false                    |
+| prefecture_id   | integer    | null: false                    |
 | municipalities  | string     | null: false                    |
 | address         | string     | null: false                    |
 | building_name   | string     |                                |
