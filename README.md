@@ -7,33 +7,41 @@
 | email              | string | null: false, unique: true|
 | encrypted_password | string | null: false |
 | nickname           | string | null: false |
-| name               | string | null: false |
-| furigana           | string | null: false |
-| birthday           | string | null: false |
+| last_name          | string | null: false |
+| first_name         | string | null: false |
+| last_kana          | string | null: false |
+| first_kana         | string | null: false |
+| birthday           | date   | null: false |
 
 ### Association
 
 - has_many :items
-- has_many :
-- has_many :
+- has_many :records
 
 
 ## items テーブル
 
-| Column            | Type         | Options     |
-| ----------------- | ------------ | ----------- |
-| title             | string       | null: false |
-| condition         | string       | null: false |
-| shipping_charges  | string       | null: false |
-| sender            | string       | null: false |
-| shipment_day      | string       | null: false |
-| user              | references   | null: false, foreign_key: true |
+| Column             | Type         | Options     |
+| ------------------ | ------------ | ----------- |
+| product_name       | string       | null: false |
+| content            | text         | null: false |
+| category_id        | integer      | null: false |
+| condition_id       | integer      | null: false |
+| postage_type_id    | integer      | null: false |
+| prefectures_id     | integer      | null: false |
+| preparation_day_id | integer      | null: false |
+| price              | integer      | null: false |
+| user               | references   | null: false, foreign_key: true |
 
 ### Association
 
 - belongs_to :users
-- belongs_to :records
-
+- has_one :records
+- belongs_to_active_hash :category
+- belongs_to_active_hash :condition
+- belongs_to_active_hash :postage_type
+- belongs_to_active_hash :prefectures
+- belongs_to_active_hash :preparation_day
 
 ## records テーブル
 
@@ -43,21 +51,23 @@
 
 ### Association
 
-- has_many :items
-- has_one :shipping_info
+- belongs_to :users
+- belongs_to :items
+- has_one :address
 
 
-## shipping_info テーブル
+## address テーブル
 
-| Column         | Type       | Options                        |
-| -----------    | ---------- | ------------------------------ |
-| post_code      | string     | null: false                    |
-| prefectures    | string     | null: false                    |
-| municipalities | string     | null: false                    |
-| adress         | string     | null: false                    |
-| building_name  | string     | null: false                    |
-| phone_number   | string     | null: false                    |
+| Column          | Type       | Options                        |
+| --------------- | ---------- | ------------------------------ |
+| post_code       | string     | null: false                    |
+| prefectures     | string     | null: false                    |
+| municipalities  | string     | null: false                    |
+| address         | string     | null: false                    |
+| building_name   | string     |                                |
+| phone_number    | string     | null: false                    |
+| records         | references | null: false, foreign_key: true |
 
 ### Association
 
-- has_one :shipping_info
+- belongs_to :records
