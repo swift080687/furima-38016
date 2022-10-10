@@ -42,7 +42,7 @@ RSpec.describe Item, type: :model do
         @item.valid?
         expect(@item.errors.full_messages).to include("Condition can't be blank")
       end
-      
+
       it 'postage_type_idが空では登録できない' do
         @item.postage_type_id = ''
         @item.valid?
@@ -60,7 +60,7 @@ RSpec.describe Item, type: :model do
         @item.valid?
         expect(@item.errors.full_messages).to include("Preparation day can't be blank")
       end
-     
+
       it 'priceが空では登録できない' do
         @item.price = ''
         @item.valid?
@@ -70,19 +70,55 @@ RSpec.describe Item, type: :model do
       it 'priceが¥300以下では登録できない' do
         @item.price = 100
         @item.valid?
-        expect(@item.errors.full_messages).to include("Price must be greater than or equal to 300")
+        expect(@item.errors.full_messages).to include('Price must be greater than or equal to 300')
       end
 
       it 'priceが¥9999999以上では登録できない' do
-        @item.price = 10000000
+        @item.price = 10_000_000
         @item.valid?
-        expect(@item.errors.full_messages).to include("Price must be less than or equal to 9999999")
+        expect(@item.errors.full_messages).to include('Price must be less than or equal to 9999999')
       end
 
       it 'piceは全角数値では登録できない' do
         @item.price = '１００００'
         @item.valid?
-        expect(@item.errors.full_messages).to include("Price is not a number")
+        expect(@item.errors.full_messages).to include('Price is not a number')
+      end
+
+      it 'category_idが「---」では登録できない' do
+        @item.category_id = 1
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Category can't be blank")
+      end
+
+      it 'condition_idが「---」では登録できない' do
+        @item.condition_id = 1
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Condition can't be blank")
+      end
+
+      it 'postage_type_idが「---」では登録できない' do
+        @item.postage_type_id = 1
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Postage type can't be blank")
+      end
+
+      it 'prefecture_idが「---」では登録できない' do
+        @item.prefecture_id = 1
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Prefecture can't be blank")
+      end
+
+      it 'preparation_day_idが「---」では登録できない' do
+        @item.preparation_day_id = 1
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Preparation day can't be blank")
+      end
+
+      it 'ユーザーが紐付いていなければ投稿できない' do
+        @item.user = nil
+        @item.valid?
+        expect(@item.errors.full_messages).to include('User must exist')
       end
     end
   end
