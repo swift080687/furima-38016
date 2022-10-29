@@ -2,7 +2,7 @@ class ItemsController < ApplicationController
   before_action :move_to_index, except: [:index, :show]
   before_action :set_item, only: [:show, :edit, :update, :destroy]
   before_action :seller_confirmation, only: [:edit, :destroy]
-
+  before_action :seller_confirmation2, only: [:edit]
   def index
     @items = Item.all.order('created_at DESC')
   end
@@ -57,5 +57,9 @@ class ItemsController < ApplicationController
 
   def seller_confirmation
     redirect_to root_path unless current_user == @item.user
+  end
+
+  def seller_confirmation2
+    redirect_to root_path unless @item.record.nil?
   end
 end
