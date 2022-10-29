@@ -5,8 +5,7 @@ RSpec.describe RecordAddress, type: :model do
     before do
       user = FactoryBot.create(:user)
       item = FactoryBot.create(:item)
-      @record_address = RecordAddress.new(post_code: '123-4567', prefecture_id: 2, municipalities: '横浜市', address: '青山',
-                                          building_name: '柳ビル', phone_number: '09012345678', token: 'tok_abcdefghijk00000000000000000', user_id: user.id, item_id: item.id)
+      @record_address = FactoryBot.build(:record_address, user_id: user.id, item_id: item.id)
       sleep(1)
     end
 
@@ -32,7 +31,7 @@ RSpec.describe RecordAddress, type: :model do
         expect(@record_address.errors.full_messages).to include('Post code is invalid. Include hyphen(-)')
       end
       it 'prefectureを選択していないと保存できないこと' do
-        @record_address.prefecture_id = ''
+        @record_address.prefecture_id = 1
         @record_address.valid?
         expect(@record_address.errors.full_messages).to include("Prefecture can't be blank")
       end
@@ -51,8 +50,13 @@ RSpec.describe RecordAddress, type: :model do
         @record_address.valid?
         expect(@record_address.errors.full_messages).to include("Phone number can't be blank", 'Phone number 半角数字のみを使用してください')
       end
-      it 'phone_numberが10桁以上11桁以内でないと保存できないこと' do
+      it 'phone_numberが12桁以上では保存できないこと' do
         @record_address.phone_number = '090123456789'
+        @record_address.valid?
+        expect(@record_address.errors.full_messages).to include('Phone number 半角数字のみを使用してください')
+      end
+      it 'phone_numberが10桁未満では保存できないこと' do
+        @record_address.phone_number = '090123456'
         @record_address.valid?
         expect(@record_address.errors.full_messages).to include('Phone number 半角数字のみを使用してください')
       end
