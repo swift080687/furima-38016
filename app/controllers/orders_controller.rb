@@ -43,9 +43,8 @@ class OrdersController < ApplicationController
       currency: 'jpy'
     )
   end
-  
+
   def seller_confirmation2
     redirect_to root_path unless @item.record.nil?
   end
-
 end
