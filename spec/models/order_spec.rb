@@ -48,7 +48,7 @@ RSpec.describe RecordAddress, type: :model do
       it 'phone_numberが空だと保存できないこと' do
         @record_address.phone_number = ''
         @record_address.valid?
-        expect(@record_address.errors.full_messages).to include("Phone number can't be blank", 'Phone number 半角数字のみを使用してください')
+        expect(@record_address.errors.full_messages).to include("Phone number can't be blank")
       end
       it 'phone_numberが12桁以上では保存できないこと' do
         @record_address.phone_number = '090123456789'
