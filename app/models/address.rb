@@ -1,4 +1,6 @@
 class Address < ApplicationRecord
-  # belongs_to :record
-  # belongs_to_active_hash :prefecture
+  belongs_to :record
+
+  extend ActiveHash::Associations::ActiveRecordExtensions
+  belongs_to :prefecture
 end
